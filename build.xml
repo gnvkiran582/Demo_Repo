@@ -1,9 +1,9 @@
-<project name="Sample usage of Salesforce Ant tasks" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
+<project name="Sample usage of Salesforce Ant" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
 
     <property file="build.properties"/>
     <property environment="env"/>
 
-    <!-- Setting default value for username, password and session id properties to empty string 
+    <!-- Setting default value for username, password and session id properties to empty string
          so unset values are treated as empty. Without this, ant expressions such as ${sf.username}
          will be treated literally.
     -->
@@ -13,10 +13,10 @@
 
     <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
         <classpath>
-            <pathelement location="../ant-salesforce.jar" />        	
+            <pathelement location="../ant-salesforce.jar" />
         </classpath>
     </taskdef>
-	
+
     <!-- Test out deploy and retrieve verbs for package 'mypkg' -->
     <target name="test">
       <!-- Upload the contents of the "mypkg" package -->
@@ -58,20 +58,20 @@
     <target name="deployCode">
       <!-- Upload the contents of the "codepkg" directory, running the tests for just 1 class -->
       <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="codepkg" testLevel="RunSpecifiedTests" rollbackOnError="true">
-      	 <runTest>SampleDeployClass</runTest> 
+      	 <runTest>SampleDeployClass</runTest>
       </sf:deploy>
     </target>
-	
+
 	 <!-- Shows deploying code with no TestLevel sepcified -->
     <target name="deployCodeNoTestLevelSpecified">
       <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="src" rollbackOnError="true"/>
     </target>
-	
+
 	<!-- Shows deploying code and running tests only within the org namespace -->
 	<target name="deployCodeRunLocalTests">
 	  <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="codepkg" rollbackOnError="true"  testlevel="RunLocalTests"/>
 	</target>
-	
+
     <!-- Shows removing code; only succeeds if done after deployCode -->
     <target name="undeployCode">
       <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="removecodepkg"/>
@@ -93,12 +93,12 @@
     <target name="deployCodeCheckOnly">
       <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="codepkg" checkOnly="true"/>
     </target>
-	
+
 	<!-- Shows quick deployment of recent validation. Set the property sf.recentValidationId to your recent check only deployment Id -->
 	<target name="quickDeploy">
 	  <sf:deployRecentValidation  username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" recentValidationId="${sf.recentValidationId}"/>
 	</target>
-	
+
 	<!-- Shows cancel deployment of deploy request either pending or in progress. Set property sf.requestId to Id of pending or in progress deploy request -->
 	<target name="cancelDeploy">
 	  <sf:cancelDeploy  username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" requestId="${sf.requestId}"/>
